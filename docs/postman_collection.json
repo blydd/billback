@@ -1,0 +1,180 @@
+{
+  "info": {
+    "name": "账单管理系统 API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "标签管理",
+      "item": [
+        {
+          "name": "获取标签列表",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tags",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tags"]
+            }
+          }
+        },
+        {
+          "name": "获取标签详情",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/tags/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tags", "1"]
+            }
+          }
+        },
+        {
+          "name": "创建标签",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/tags",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tags"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"住宿\",\n  \"type\": \"1\",\n  \"icon\": \"house_icon\",\n  \"userId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "更新标签",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/tags/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tags", "3"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"住房\",\n  \"type\": \"1\",\n  \"icon\": \"house_icon\",\n  \"userId\": 1\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "删除标签",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/tags/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "tags", "3"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "账单管理",
+      "item": [
+        {
+          "name": "查询账单列表",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/query",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", "query"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"month\": \"2023-04\",\n  \"type\": \"1\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "获取账单详情",
+          "request": {
+            "method": "GET",
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/1",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", "1"]
+            }
+          }
+        },
+        {
+          "name": "创建账单",
+          "request": {
+            "method": "POST",
+            "url": {
+              "raw": "{{baseUrl}}/api/bills",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"amount\": 200.75,\n  \"billDate\": \"2023-04-02 09:30:00\",\n  \"desc\": \"超市购物\",\n  \"type\": \"1\",\n  \"tagIds\": [1, 3]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "更新账单",
+          "request": {
+            "method": "PUT",
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", "3"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"userId\": 1,\n  \"amount\": 220.50,\n  \"billDate\": \"2023-04-02 09:30:00\",\n  \"desc\": \"超市购物（修改）\",\n  \"type\": \"1\",\n  \"tagIds\": [2, 4]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
+          "name": "删除账单",
+          "request": {
+            "method": "DELETE",
+            "url": {
+              "raw": "{{baseUrl}}/api/bills/3",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "bills", "3"]
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ]
+} 

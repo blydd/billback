@@ -1,0 +1,109 @@
+package com.example.billback.controller;
+
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.example.billback.vo.BillVo;
+import com.example.billback.common.Result;
+import com.example.billback.dto.BillDto;
+import com.example.billback.entity.Bill;
+import com.example.billback.service.BillService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+/**
+ * 账单管理控制器
+ */
+@RestController
+@RequestMapping("/api/bills")
+public class BillController {
+
+    private static final Logger logger = LoggerFactory.getLogger(BillController.class);
+
+    @Autowired
+    private BillService billService;
+
+    /**
+     * 查询用户的账单列表 done
+     * 
+     * @param billDto
+     */
+    @PostMapping("/query")
+    public Result<List<BillVo>> list( @RequestBody BillDto billDto) {
+        return Result.success(billService.getBills(billDto));
+    }
+
+    /**
+     * 根据ID查询单个账单
+     * 
+     * @param id 账单ID
+     * @return 账单详细信息
+     */
+    @GetMapping("/{id}")
+    public Result<BillVo> getById(@PathVariable Long id) {
+        logger.info("查询账单详情，ID：{}", id);
+        return Result.success(billService.getOneById(id));
+    }
+
+    /**
+     * 创建新账单 done
+     * 
+     * @param bill 账单信息
+     * @return 创建成功的账单信息
+     */
+    @PostMapping
+    public Result<Bill> save(@RequestBody BillDto bill) {
+        logger.info("创建新账单：{}", bill);
+        try {
+            Bill savedBill = billService.saveBillWithTags(bill);
+            logger.info("账单创建成功，ID：{}", savedBill.getId());
+            return Result.success(savedBill);
+        } catch (Exception e) {
+            logger.error("创建账单失败", e);
+            return Result.error("创建账单失败：" + e.getMessage());
+        }
+    }
+
+    /**
+     * 更新账单信息
+     * 
+     * @param id 账单ID
+     * @param bill 更新的账单信息
+
+     * @return 更新成功的响应
+     */
+    @PutMapping("/{id}")
+    public Result<Void> update(@PathVariable Long id, @RequestBody BillDto bill) {
+
+        try {
+            bill.setId(id);
+            billService.updateBillWithTags(bill);
+            logger.info("账单更新成功，ID：{}", id);
+            return Result.success();
+        } catch (Exception e) {
+            logger.error("更新账单失败，ID：{}", id, e);
+            return Result.error("更新账单失败：" + e.getMessage());
+        }
+    }
+
+    /**
+     * 删除账单
+     * 
+     * @param id 要删除的账单ID
+     * @return 删除成功的响应
+     */
+    @DeleteMapping("/{id}")
+    public Result<Void> delete(@PathVariable Long id) {
+        logger.info("删除账单，ID：{}", id);
+        try {
+            billService.deleteBillWithTags(id);
+            logger.info("账单删除成功，ID：{}", id);
+            return Result.success();
+        } catch (Exception e) {
+            logger.error("删除账单失败，ID：{}", id, e);
+            return Result.error("删除账单失败：" + e.getMessage());
+        }
+    }
+} 
