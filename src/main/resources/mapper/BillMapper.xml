@@ -24,15 +24,18 @@
                 AND DATE_FORMAT(b.bill_date, '%Y-%m') = #{billDto.month}
             </if>
             <!-- 标签取交集 -->
-            <if test="billDto.tagIds != null and billDto.tagIds.size > 0 ">
-                and b.id in
-                <foreach collection="billDto.tagIds" item="t" separator="INTERSECT" index="i" open="(" close=")">
-                    SELECT bill_id from bill_tags WHERE tag_id = #{t}
+            <if test="billDto.tagIds != null and billDto.tagIds.size > 0 and billDto.tagIds.get(0) != -1">
+                <foreach collection="billDto.tagIds" item="t" separator="" index="i" open="" close="">
+                    and b.id in ( SELECT bill_id FROM bill_tags WHERE tag_id = #{t})
                 </foreach>
             </if>
             <!-- 账户类型:1储蓄账户,2信用账户 -->
             <if test="billDto.accountType != null">
                 and t.account_type = #{billDto.accountType}
+            </if>
+            <!-- 标签类型:1-支付方式,2-账单类型 -->
+            <if test="billDto.tagType != null">
+                and t.tag_type = #{billDto.tagType}
             </if>
         </where>
         GROUP BY b.id
