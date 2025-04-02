@@ -26,6 +26,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 
@@ -54,7 +55,10 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
         bills.forEach(bill -> {
             List<BillTags> billTags = billTagsMapper.selectList(Wrappers.<BillTags>lambdaQuery().eq(BillTags::getBillId, bill.getId()));
             if (CollUtil.isNotEmpty(billTags)){
-                List<Tag> tags = tagMapper.selectBatchIds(billTags.stream().map(BillTags::getTagId).collect(Collectors.toList()));
+                List<Tag> tags = tagMapper.selectList(Wrappers.<Tag>lambdaQuery()
+                        .in(Tag::getId, billTags.stream().map(BillTags::getTagId).collect(Collectors.toList()))
+                        .eq(Objects.nonNull(billDto.getTagType()),Tag::getTagType, billDto.getTagType())
+                );
                 bill.setTags(tags);
             }
         });
