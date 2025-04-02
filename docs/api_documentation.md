@@ -34,15 +34,28 @@
     {
       "id": 1,
       "name": "餐饮",
-      "type": "1",  // 1-支出,2-收入
+      "inoutType": 1,  // 1-支出,2-入账,3-不计入收支
+      "tagType": 2,    // 1-支付方式,2-账单类型
+      "accountType": null, // 1-储蓄账户,2-信用账户
       "icon": "food_icon",
       "userId": 1
     },
     {
       "id": 2,
       "name": "交通",
-      "type": "1",
+      "inoutType": 1,
+      "tagType": 2,
+      "accountType": null,
       "icon": "transport_icon",
+      "userId": 1
+    },
+    {
+      "id": 3,
+      "name": "支付宝",
+      "inoutType": 3,
+      "tagType": 1,
+      "accountType": 1,
+      "icon": "alipay_icon",
       "userId": 1
     }
   ]
@@ -66,7 +79,9 @@
   "data": {
     "id": 1,
     "name": "餐饮",
-    "type": "1",
+    "inoutType": 1,
+    "tagType": 2,
+    "accountType": null,
     "icon": "food_icon",
     "userId": 1
   }
@@ -84,7 +99,9 @@
 ```json
 {
   "name": "住宿",
-  "type": "1",
+  "inoutType": 1,
+  "tagType": 2,
+  "accountType": null,
   "icon": "house_icon",
   "userId": 1
 }
@@ -97,9 +114,11 @@
   "code": 200,
   "message": "success",
   "data": {
-    "id": 3,
+    "id": 4,
     "name": "住宿",
-    "type": "1",
+    "inoutType": 1,
+    "tagType": 2,
+    "accountType": null,
     "icon": "house_icon",
     "userId": 1
   }
@@ -119,7 +138,9 @@
 ```json
 {
   "name": "住房",
-  "type": "1",
+  "inoutType": 1,
+  "tagType": 2,
+  "accountType": null,
   "icon": "house_icon",
   "userId": 1
 }
@@ -167,7 +188,7 @@
 {
   "userId": 1,
   "month": "2023-04", // 可选，按月份筛选
-  "type": "1" // 可选，1-支出,2-收入
+  "inoutType": 1 // 可选，1-支出,2-入账,3-不计入收支
 }
 ```
 
@@ -184,18 +205,9 @@
       "amount": 100.50,
       "billDate": "2023-04-01 12:00:00",
       "desc": "午餐费用",
-      "type": "1",
+      "inoutType": 1,
       "createTime": "2023-04-01 12:05:30",
-      "updateTime": "2023-04-01 12:05:30",
-      "tags": [
-        {
-          "id": 1,
-          "name": "餐饮",
-          "type": "1",
-          "icon": "food_icon",
-          "userId": 1
-        }
-      ]
+      "updateTime": "2023-04-01 12:05:30"
     },
     {
       "id": 2,
@@ -203,18 +215,9 @@
       "amount": 30.00,
       "billDate": "2023-04-01 18:30:00",
       "desc": "公交车费",
-      "type": "1",
+      "inoutType": 1,
       "createTime": "2023-04-01 18:35:20",
-      "updateTime": "2023-04-01 18:35:20",
-      "tags": [
-        {
-          "id": 2,
-          "name": "交通",
-          "type": "1",
-          "icon": "transport_icon",
-          "userId": 1
-        }
-      ]
+      "updateTime": "2023-04-01 18:35:20"
     }
   ]
 }
@@ -240,18 +243,9 @@
     "amount": 100.50,
     "billDate": "2023-04-01 12:00:00",
     "desc": "午餐费用",
-    "type": "1",
+    "inoutType": 1,
     "createTime": "2023-04-01 12:05:30",
-    "updateTime": "2023-04-01 12:05:30",
-    "tags": [
-      {
-        "id": 1,
-        "name": "餐饮",
-        "type": "1",
-        "icon": "food_icon",
-        "userId": 1
-      }
-    ]
+    "updateTime": "2023-04-01 12:05:30"
   }
 }
 ```
@@ -270,7 +264,7 @@
   "amount": 200.75,
   "billDate": "2023-04-02 09:30:00",
   "desc": "超市购物",
-  "type": "1",
+  "inoutType": 1,
   "tagIds": [1, 3]  // 标签ID列表
 }
 ```
@@ -287,7 +281,7 @@
     "amount": 200.75,
     "billDate": "2023-04-02 09:30:00",
     "desc": "超市购物",
-    "type": "1",
+    "inoutType": 1,
     "createTime": "2023-04-02 09:35:12",
     "updateTime": "2023-04-02 09:35:12"
   }
@@ -310,7 +304,7 @@
   "amount": 220.50,
   "billDate": "2023-04-02 09:30:00",
   "desc": "超市购物（修改）",
-  "type": "1",
+  "inoutType": 1,
   "tagIds": [2, 4]  // 可选，新的标签ID列表
 }
 ```
