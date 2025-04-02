@@ -1,52 +1,26 @@
--- 用户表
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(100) NOT NULL UNIQUE,
-    password VARCHAR(100) NOT NULL,
-    enabled BOOLEAN DEFAULT true,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE `bills` (
+                         `id` int NOT NULL AUTO_INCREMENT,
+                         `user_id` int NOT NULL COMMENT '用户id',
+                         `amount` decimal(10,2) NOT NULL COMMENT '金额',
+                         `bill_date` timestamp NOT NULL COMMENT '账单时间',
+                         `desc` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci COMMENT '备注',
+                         `create_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                         `update_time` timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
+                         `type` int DEFAULT NULL COMMENT '收支类型:1-支出,2-入账',
+                         PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='账单表';
 
--- 分类表
-CREATE TABLE IF NOT EXISTS categories (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(50) NOT NULL,
-    type VARCHAR(20) NOT NULL, -- EXPENSE:支出, INCOME:收入, IGNORE:不计入收支
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+CREATE TABLE `tags` (
+                        `id` int NOT NULL AUTO_INCREMENT,
+                        `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '标签名称',
+                        `inout_type` int NOT NULL COMMENT '收支类型:1-支出,2-入账,3-不计入收支',
+                        `icon` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL COMMENT '图标',
+                        `user_id` int DEFAULT NULL COMMENT '用户id',
+                        `tag_type` int DEFAULT NULL COMMENT '标签类型:1-支付方式,2-账单类型',
+                        PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci COMMENT='标签表';
 
--- 标签表
-CREATE TABLE IF NOT EXISTS tags (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name VARCHAR(50) NOT NULL,
-    type VARCHAR(20) NOT NULL, -- BILL_TYPE:账单类型, PAYMENT_METHOD:支付方式
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
-
--- 账单表
-CREATE TABLE IF NOT EXISTS bills (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER NOT NULL,
-    category_id INTEGER NOT NULL,
-    amount DECIMAL(10,2) NOT NULL,
-    bill_date DATE NOT NULL,
-    note TEXT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES users(id),
-    FOREIGN KEY (category_id) REFERENCES categories(id)
-);
-
--- 账单标签关联表
-CREATE TABLE IF NOT EXISTS bill_tags (
-    bill_id INTEGER NOT NULL,
-    tag_id INTEGER NOT NULL,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY (bill_id, tag_id),
-    FOREIGN KEY (bill_id) REFERENCES bills(id),
-    FOREIGN KEY (tag_id) REFERENCES tags(id)
-); 
+CREATE TABLE `bill_tags` (
+                             `bill_id` int DEFAULT NULL,
+                             `tag_id` int DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;

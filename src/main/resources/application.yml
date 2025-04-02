@@ -3,8 +3,10 @@ server:
 
 spring:
   datasource:
-    driver-class-name: org.sqlite.JDBC
-    url: jdbc:sqlite:db/billback.db
+    url: jdbc:mysql://dbconn.sealosbja.site:38027/billback?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: qlw9s2gb
+    driver-class-name: com.mysql.cj.jdbc.Driver
 
 mybatis-plus:
   configuration:

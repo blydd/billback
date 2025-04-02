@@ -46,9 +46,9 @@ public class Bill extends BaseEntity {
     private String desc;
 
     /**
-     * 账单类型，1代表支出，2代表收入
+     * 收支类型:1-支出,2-入账,3-不计入收支
      */
-    private String type;
+    private Integer inoutType;
 
 
 } 

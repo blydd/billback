@@ -15,7 +15,7 @@ public class MybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor() {
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 添加分页插件
-        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.SQLITE);
+        PaginationInnerInterceptor paginationInnerInterceptor = new PaginationInnerInterceptor(DbType.MYSQL);
         paginationInnerInterceptor.setOverflow(true);
         interceptor.addInnerInterceptor(paginationInnerInterceptor);
         return interceptor;

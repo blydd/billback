@@ -4,30 +4,24 @@
 
     <select id="getBills" resultType="com.example.billback.vo.BillVo">
         SELECT
-            b.id,
-            b.user_id,
-            b.amount,
-            b.bill_date,
-            b.DESC,
-            b.type,
-            b.create_time,
-            b.update_time
+            b.*
         FROM
             bills b
             LEFT JOIN bill_tags bt ON bt.bill_id = b.id
+            LEFT JOIN tags t ON bt.tag_id = t.id
         <where>
             1 = 1
             <!-- 用户 -->
             <if test="billDto.userId != null">
                 AND b.user_id = #{billDto.userId}
             </if>
-            <!-- 收支类型:1-支出,2收入 -->
-            <if test="billDto.type != null">
-                AND b.type = #{billDto.type}
+            <!-- 收支类型:1-支出,2收入,3不计入收支 -->
+            <if test="billDto.inoutType != null">
+                AND b.inout_type = #{billDto.inoutType}
             </if>
             <!-- 账单月份 -->
             <if test="billDto.month != null and billDto.month != ''">
-                AND strftime( '%Y-%m', b.bill_date ) = #{billDto.month}
+                AND DATE_FORMAT(b.bill_date, '%Y-%m') = #{billDto.month}
             </if>
             <!-- 标签取交集 -->
             <if test="billDto.tagIds != null and billDto.tagIds.size > 0 ">
@@ -35,6 +29,10 @@
                 <foreach collection="billDto.tagIds" item="t" separator="INTERSECT" index="i" open="(" close=")">
                     SELECT bill_id from bill_tags WHERE tag_id = #{t}
                 </foreach>
+            </if>
+            <!-- 账户类型:1储蓄账户,2信用账户 -->
+            <if test="billDto.accountType != null">
+                and t.account_type = #{billDto.accountType}
             </if>
         </where>
         GROUP BY b.id
