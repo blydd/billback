@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://dbconn.sealosbja.site:38027/billback?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://dbconn.sealosbja.site:38027/billback?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
     username: root
     password: qlw9s2gb
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -26,5 +26,5 @@ wechat:
   appid: wxad964e84378db247
   secret: 59523fbf2c7670bec48d5418ff7082b7
 jwt:
-  secret: your_jwt_secret_key_at_least_32_characters_long
+  secret: yourpjwtpsecretpkeypatpleastp32pcharactersplong
   expiration: 2592000  # 30天，单位秒

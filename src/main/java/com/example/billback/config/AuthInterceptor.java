@@ -28,6 +28,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         // 检查token是否存在
         if (!StringUtils.hasText(token) || !token.startsWith("Bearer ")) {
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            System.err.println("Token不存在");
             return false;
         }
         
@@ -38,17 +39,19 @@ public class AuthInterceptor implements HandlerInterceptor {
             // 验证token
             if (!jwtUtils.validateToken(token)) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                System.err.println("token无效");
                 return false;
             }
             
             // 从token中提取用户ID并设置到请求属性中
-            String userId = jwtUtils.extractUserId(token);
+            Integer userId = jwtUtils.extractUserId(token);
             request.setAttribute(USER_ID, userId);
             
             return true;
         } catch (Exception e) {
-            log.error("Token验证失败", e);
+            System.err.println("Token验证失败");
             response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            e.printStackTrace();
             return false;
         }
     }

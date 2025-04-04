@@ -20,4 +20,9 @@ public class UserController {
         return Result.success(response);
     }
 
+    @GetMapping("/test")
+    public Result<String> test() {
+        return Result.success("服务正常启动。。。。。。。。。");
+    }
+
 }
