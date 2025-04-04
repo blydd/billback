@@ -1,13 +1,17 @@
 package com.example.billback.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.billback.common.Result;
 import com.example.billback.entity.Tag;
 import com.example.billback.service.TagService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static com.example.billback.common.Constant.USER_ID;
 
 @RestController
 @RequestMapping("/api/tags")
@@ -17,8 +21,9 @@ public class TagController {
     private TagService tagService;
 
     @GetMapping
-    public Result<List<Tag>> list() {
-        return Result.success(tagService.list());
+    public Result<List<Tag>> list(HttpServletRequest request) {
+
+        return Result.success(tagService.list(Wrappers.<Tag>lambdaQuery().eq(Tag::getUserId, request.getAttribute(USER_ID))));
     }
 
     @GetMapping("/{id}")
@@ -27,8 +32,9 @@ public class TagController {
     }
 
     @PostMapping
-    public Result<Tag> save(@RequestBody Tag tag) {
-        tagService.save(tag);
+    public Result<Tag> save(@RequestBody Tag tag,HttpServletRequest request) {
+        tag.setUserId(Long.valueOf(String.valueOf(request.getAttribute(USER_ID))));
+        tagService.saveTag(tag);
         return Result.success(tag);
     }
 

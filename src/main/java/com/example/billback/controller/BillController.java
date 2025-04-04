@@ -11,7 +11,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+
+import static com.example.billback.common.Constant.USER_ID;
 
 /**
  * 账单管理控制器
@@ -31,7 +34,8 @@ public class BillController {
      * @param billDto
      */
     @PostMapping("/query")
-    public Result<List<BillVo>> list( @RequestBody BillDto billDto) {
+    public Result<List<BillVo>> list(@RequestBody BillDto billDto, HttpServletRequest request) {
+        billDto.setUserId(Long.valueOf(String.valueOf(request.getAttribute(USER_ID))));
         return Result.success(billService.getBills(billDto));
     }
 
@@ -42,7 +46,7 @@ public class BillController {
      * @return 账单详细信息
      */
     @GetMapping("/{id}")
-    public Result<BillVo> getById(@PathVariable Long id) {
+    public Result<BillVo> getById(@PathVariable Long id, HttpServletRequest request) {
         logger.info("查询账单详情，ID：{}", id);
         return Result.success(billService.getOneById(id));
     }
@@ -54,9 +58,10 @@ public class BillController {
      * @return 创建成功的账单信息
      */
     @PostMapping
-    public Result<Bill> save(@RequestBody BillDto bill) {
+    public Result<Bill> save(@RequestBody BillDto bill, HttpServletRequest request) {
         logger.info("创建新账单：{}", bill);
         try {
+            bill.setUserId(Long.valueOf(String.valueOf(request.getAttribute(USER_ID))));
             Bill savedBill = billService.saveBillWithTags(bill);
             logger.info("账单创建成功，ID：{}", savedBill.getId());
             return Result.success(savedBill);
@@ -75,9 +80,10 @@ public class BillController {
      * @return 更新成功的响应
      */
     @PutMapping("/{id}")
-    public Result<Void> update(@PathVariable Long id, @RequestBody BillDto bill) {
+    public Result<Void> update(@PathVariable Long id, @RequestBody BillDto bill, HttpServletRequest request) {
 
         try {
+            bill.setUserId(Long.valueOf(String.valueOf(request.getAttribute(USER_ID))));
             bill.setId(id);
             billService.updateBillWithTags(bill);
             logger.info("账单更新成功，ID：{}", id);
@@ -95,7 +101,7 @@ public class BillController {
      * @return 删除成功的响应
      */
     @DeleteMapping("/{id}")
-    public Result<Void> delete(@PathVariable Long id) {
+    public Result<Void> delete(@PathVariable Long id, HttpServletRequest request) {
         logger.info("删除账单，ID：{}", id);
         try {
             billService.deleteBillWithTags(id);

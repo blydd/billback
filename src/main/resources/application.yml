@@ -20,4 +20,11 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.example.billback.entity 
+  type-aliases-package: com.example.billback.entity
+
+wechat:
+  appid: wxad964e84378db247
+  secret: 59523fbf2c7670bec48d5418ff7082b7
+jwt:
+  secret: your_jwt_secret_key_at_least_32_characters_long
+  expiration: 2592000  # 30天，单位秒

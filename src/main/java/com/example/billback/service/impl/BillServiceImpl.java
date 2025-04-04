@@ -107,12 +107,19 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
             throw new RuntimeException("更新账单失败");
         }
 
-        //先查询再删除全部标签
+        //先查询再删除全部标签关系
         List<BillTags> billTags = billTagsMapper.selectList(Wrappers.<BillTags>lambdaQuery().eq(BillTags::getBillId, bill.getId()));
-        billTagsMapper.delete(Wrappers.<BillTags>lambdaQuery().eq(BillTags::getBillId, bill.getId()));
-        tagMapper.deleteBatchIds(billTags.stream().map(BillTags::getTagId).collect(Collectors.toList()));
+        if (CollUtil.isNotEmpty(billTags)){
+            billTagsMapper.delete(Wrappers.<BillTags>lambdaQuery().eq(BillTags::getBillId, bill.getId()));
+        }
 
 
+        //保存标签
+        if (!CollectionUtils.isEmpty(bill.getTagIds())) {
+            for (Long tagId : bill.getTagIds()) {
+                billTagsMapper.insert(new BillTags().setBillId(bill.getId()).setTagId(tagId));
+            }
+        }
     }
 
     @Override

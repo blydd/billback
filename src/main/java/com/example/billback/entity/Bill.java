@@ -1,7 +1,6 @@
 package com.example.billback.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -9,9 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
 @EqualsAndHashCode(callSuper = true)
@@ -43,7 +40,7 @@ public class Bill extends BaseEntity {
     /**
      * 账单描述，用于记录账单的详细信息或备注
      */
-    private String desc;
+    private String remark;
 
     /**
      * 收支类型:1-支出,2-入账,3-不计入收支
