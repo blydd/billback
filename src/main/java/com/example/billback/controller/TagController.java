@@ -1,5 +1,6 @@
 package com.example.billback.controller;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.example.billback.common.Result;
 import com.example.billback.entity.Tag;
@@ -47,6 +48,10 @@ public class TagController {
 
     @DeleteMapping("/{id}")
     public Result<Void> delete(@PathVariable Long id) {
+        Tag tag = tagService.getById(id);
+        if (tag.getInoutType() == 3 && StrUtil.equals("还信用卡",tag.getName())){
+            throw new RuntimeException("系统标签不可删除!");
+        }
         tagService.removeById(id);
         return Result.success();
     }

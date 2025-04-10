@@ -8,6 +8,8 @@ import com.example.billback.enums.InoutTypeEnum;
 import com.example.billback.enums.TagTypeEnum;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 @TableName("tags")
 public class Tag {
@@ -46,4 +48,24 @@ public class Tag {
      * 用户ID，关联用户表的主键
      */
     private Long userId;
+
+    /**
+     * 信用额度
+     */
+    private BigDecimal creditLimit;
+
+    /**
+     * 信用可用额度
+     */
+    private BigDecimal creditLimitAvailable;
+
+    /**
+     * 信用卡账单日
+     */
+    private Integer creditBillDay;
+
+    /**
+     * 信用卡还款日
+     */
+    private Integer creditPayDay;
 }

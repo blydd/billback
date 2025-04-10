@@ -22,21 +22,21 @@
         INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '帅哥', 1, NULL, #{userId}, 3, NULL);
         INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '靓女', 1, NULL, #{userId}, 3, NULL);
 
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '广发信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '招商信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '农行信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '工商信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '齐鲁信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '中信信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '浦发信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '华夏信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '建设信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '光大信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '平安信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '青岛信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '兴业信用卡', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '白条', 1, NULL, #{userId}, 1, 2);
-        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '花呗', 1, NULL, #{userId}, 1, 2);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '广发信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '招商信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '农行信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '工商信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '齐鲁信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '中信信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '浦发信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '华夏信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '建设信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '光大信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '平安信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '青岛信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '兴业信用卡', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '白条', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
+        INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`,`credit_limit`,`credit_limit_available`,`credit_bill_day`,`credit_pay_day`) VALUES ( '花呗', 1, NULL, #{userId}, 1, 2,10000,10000,1,20);
         INSERT INTO `billback`.`tags` (`name`, `inout_type`, `icon`, `user_id`, `tag_type`, `account_type`) VALUES ( '微信', 1, NULL, #{userId}, 1, 1);
 
 

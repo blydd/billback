@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -86,6 +87,28 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
         //保存账单标签中间表
         if (!CollectionUtils.isEmpty(bill.getTagIds())) {
             for (Long tagId : bill.getTagIds()) {
+                //更新信用卡可用额度
+                Tag tag = tagMapper.selectById(tagId);
+                if (tag.getAccountType() == 2) {
+                    BigDecimal amount = bill.getAmount();
+                    Integer inoutType = bill.getInoutType();
+                    if (inoutType == 1) {
+                        //支出
+                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().subtract(amount));
+                    } else if (inoutType == 3 && StrUtil.equals(tag.getName(), "还信用卡")){
+                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().add(amount));
+                    }
+                    if (tag.getCreditLimitAvailable().compareTo(BigDecimal.ZERO) < 0) {
+                        tag.setCreditLimitAvailable(BigDecimal.ZERO);
+                    }
+                    //如果可用额度大于额度,则设为额度
+                    if (tag.getCreditLimitAvailable().compareTo(tag.getCreditLimit()) > 0) {
+                        tag.setCreditLimitAvailable(tag.getCreditLimit());
+                    }
+                    tagMapper.updateById(tag);
+                }
+
+
                 billTagsMapper.insert(new BillTags().setBillId(bill.getId()).setTagId(tagId));
             }
         }
@@ -96,8 +119,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
     @Override
     @Transactional(rollbackFor = Exception.class)
     public void updateBillWithTags(BillDto bill) {
-
-        
+        Bill oldBill = billMapper.selectById(bill.getId());
         // 更新账单基本信息
         int result = billMapper.updateById(bill);
         logger.info("账单基本信息更新结果：{}", result);
@@ -110,6 +132,29 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
         //先查询再删除全部标签关系
         List<BillTags> billTags = billTagsMapper.selectList(Wrappers.<BillTags>lambdaQuery().eq(BillTags::getBillId, bill.getId()));
         if (CollUtil.isNotEmpty(billTags)){
+            for (BillTags billTag : billTags) {
+                //更新信用卡可用额度:原来标签先恢复额度
+                Tag tag = tagMapper.selectById(billTag.getTagId());
+                if (tag.getAccountType() == 2) {
+                    BigDecimal amount = oldBill.getAmount();
+                    Integer inoutType = oldBill.getInoutType();
+                    if (inoutType == 1) {
+                        //支出
+                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().add(amount));
+                    } else if (inoutType == 3 && StrUtil.equals(tag.getName(), "还信用卡")){
+                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().subtract(amount));
+                    }
+                    if (tag.getCreditLimitAvailable().compareTo(BigDecimal.ZERO) < 0) {
+                        tag.setCreditLimitAvailable(BigDecimal.ZERO);
+                    }
+                    //如果可用额度大于额度,则设为额度
+                    if (tag.getCreditLimitAvailable().compareTo(tag.getCreditLimit()) > 0) {
+                        tag.setCreditLimitAvailable(tag.getCreditLimit());
+                    }
+                    tagMapper.updateById(tag);
+                }
+            }
+
             billTagsMapper.delete(Wrappers.<BillTags>lambdaQuery().eq(BillTags::getBillId, bill.getId()));
         }
 
@@ -117,6 +162,27 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
         //保存标签
         if (!CollectionUtils.isEmpty(bill.getTagIds())) {
             for (Long tagId : bill.getTagIds()) {
+                //更新信用卡可用额度:原来标签先恢复额度
+                Tag tag = tagMapper.selectById(tagId);
+                if (tag.getAccountType() == 2) {
+                    BigDecimal amount = oldBill.getAmount();
+                    Integer inoutType = oldBill.getInoutType();
+                    if (inoutType == 1) {
+                        //支出
+                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().subtract(amount));
+                    } else if (inoutType == 3 && StrUtil.equals(tag.getName(), "还信用卡")){
+                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().add(amount));
+                    }
+                    if (tag.getCreditLimitAvailable().compareTo(BigDecimal.ZERO) < 0) {
+                        tag.setCreditLimitAvailable(BigDecimal.ZERO);
+                    }
+                    //如果可用额度大于额度,则设为额度
+                    if (tag.getCreditLimitAvailable().compareTo(tag.getCreditLimit()) > 0) {
+                        tag.setCreditLimitAvailable(tag.getCreditLimit());
+                    }
+                    tagMapper.updateById(tag);
+                }
+
                 billTagsMapper.insert(new BillTags().setBillId(bill.getId()).setTagId(tagId));
             }
         }
