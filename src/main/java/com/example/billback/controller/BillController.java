@@ -57,9 +57,13 @@ public class BillController {
      * @param bill 账单信息
      * @return 创建成功的账单信息
      */
-    @PostMapping
+    @PostMapping("/save")
     public Result<Bill> save(@RequestBody BillDto bill, HttpServletRequest request) {
         logger.info("创建新账单：{}", bill);
+        //如果request中的USER_ID为1，返回错误信息，状态码100
+        if (Long.valueOf(String.valueOf(request.getAttribute(USER_ID))) == 1) {
+            return Result.error( 100,"请先登录");
+        }
         try {
             bill.setUserId(Long.valueOf(String.valueOf(request.getAttribute(USER_ID))));
             Bill savedBill = billService.saveBillWithTags(bill);
@@ -79,9 +83,12 @@ public class BillController {
 
      * @return 更新成功的响应
      */
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public Result<Void> update(@PathVariable Long id, @RequestBody BillDto bill, HttpServletRequest request) {
-
+        //如果request中的USER_ID为1，返回错误信息，状态码100
+        if (Long.valueOf(String.valueOf(request.getAttribute(USER_ID))) == 1) {
+            return Result.error( 100,"请先登录");
+        }
         try {
             bill.setUserId(Long.valueOf(String.valueOf(request.getAttribute(USER_ID))));
             bill.setId(id);
@@ -100,8 +107,12 @@ public class BillController {
      * @param id 要删除的账单ID
      * @return 删除成功的响应
      */
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public Result<Void> delete(@PathVariable Long id, HttpServletRequest request) {
+        //如果request中的USER_ID为1，返回错误信息，状态码100
+        if (Long.valueOf(String.valueOf(request.getAttribute(USER_ID))) == 1) {
+            return Result.error( 100,"请先登录");
+        }
         logger.info("删除账单，ID：{}", id);
         try {
             billService.deleteBillWithTags(id);
