@@ -89,7 +89,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
             for (Long tagId : bill.getTagIds()) {
                 //更新信用卡可用额度
                 Tag tag = tagMapper.selectById(tagId);
-                if (tag.getAccountType() == 2) {
+                if (Objects.equals(tag.getAccountType(),2)) {
                     BigDecimal amount = bill.getAmount();
                     Integer inoutType = bill.getInoutType();
                     if (inoutType == 1) {
@@ -135,7 +135,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
             for (BillTags billTag : billTags) {
                 //更新信用卡可用额度:原来标签先恢复额度
                 Tag tag = tagMapper.selectById(billTag.getTagId());
-                if (tag.getAccountType() == 2) {
+                if (Objects.equals(tag.getAccountType(),2)) {
                     BigDecimal amount = oldBill.getAmount();
                     Integer inoutType = oldBill.getInoutType();
                     if (inoutType == 1) {
@@ -164,7 +164,7 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
             for (Long tagId : bill.getTagIds()) {
                 //更新信用卡可用额度:原来标签先恢复额度
                 Tag tag = tagMapper.selectById(tagId);
-                if (tag.getAccountType() == 2) {
+                if (Objects.equals(tag.getAccountType(),2)) {
                     BigDecimal amount = oldBill.getAmount();
                     Integer inoutType = oldBill.getInoutType();
                     if (inoutType == 1) {
