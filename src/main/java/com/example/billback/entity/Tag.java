@@ -50,22 +50,42 @@ public class Tag {
     private Long userId;
 
     /**
-     * 信用额度
+     * 信用额度1
      */
-    private BigDecimal creditLimit;
+    private BigDecimal creditLimit1;
 
     /**
-     * 信用可用额度
+     * 信用可用额度1
      */
-    private BigDecimal creditLimitAvailable;
+    private BigDecimal creditLimitAvailable1;
 
     /**
-     * 信用卡账单日
+     * 信用卡账单日1
      */
-    private Integer creditBillDay;
+    private Integer creditBillDay1;
 
     /**
-     * 信用卡还款日
+     * 信用卡还款日1
      */
-    private Integer creditPayDay;
+    private Integer creditPayDay1;
+
+    /**
+     * 信用额度2
+     */
+    private BigDecimal creditLimit2;
+
+    /**
+     * 信用可用额度2
+     */
+    private BigDecimal creditLimitAvailable2;
+
+    /**
+     * 信用卡账单日2
+     */
+    private Integer creditBillDay2;
+
+    /**
+     * 信用卡还款日2
+     */
+    private Integer creditPayDay2;
 }
