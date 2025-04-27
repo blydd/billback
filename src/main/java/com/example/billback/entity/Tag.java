@@ -3,9 +3,6 @@ package com.example.billback.entity;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.example.billback.enums.AccountTypeEnum;
-import com.example.billback.enums.InoutTypeEnum;
-import com.example.billback.enums.TagTypeEnum;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -30,7 +27,7 @@ public class Tag {
     private Integer inoutType;
     
     /**
-     * 标签类型:1-支付方式,2-账单类型
+     * 标签类型:1-支付方式,2-账单类型,3-归属人
      */
     private Integer tagType;
     

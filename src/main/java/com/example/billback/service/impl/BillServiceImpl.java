@@ -84,6 +84,9 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
             throw new RuntimeException("保存账单失败");
         }
 
+        //查询关联的标签,看是否属于帅哥
+        List<Tag> tags = tagMapper.selectBatchIds(bill.getTagIds());
+        boolean ifMan = CollUtil.isNotEmpty(tags.stream().filter(t -> t.getTagType() == 3 && t.getName().equals("帅哥")).collect(Collectors.toList()));
         //保存账单标签中间表
         if (!CollectionUtils.isEmpty(bill.getTagIds())) {
             for (Long tagId : bill.getTagIds()) {
@@ -94,17 +97,38 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
                     Integer inoutType = bill.getInoutType();
                     if (inoutType == 1) {
                         //支出
-                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().subtract(amount));
+                        if (ifMan){
+                            tag.setCreditLimitAvailable1(tag.getCreditLimitAvailable1().subtract(amount));
+                        }else {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimitAvailable2().subtract(amount));
+                        }
+
                     } else if (inoutType == 3 && StrUtil.equals(tag.getName(), "还信用卡")){
-                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().add(amount));
+                        if (ifMan){
+                            tag.setCreditLimitAvailable1(tag.getCreditLimitAvailable1().add(amount));
+                        }else {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimitAvailable2().add(amount));
+                        }
+
                     }
-                    if (tag.getCreditLimitAvailable().compareTo(BigDecimal.ZERO) < 0) {
-                        tag.setCreditLimitAvailable(BigDecimal.ZERO);
+                    if (ifMan){
+                        if (tag.getCreditLimitAvailable1().compareTo(BigDecimal.ZERO) < 0) {
+                            tag.setCreditLimitAvailable1(BigDecimal.ZERO);
+                        }
+                        //如果可用额度大于额度,则设为额度
+                        if (tag.getCreditLimitAvailable1().compareTo(tag.getCreditLimit1()) > 0) {
+                            tag.setCreditLimitAvailable1(tag.getCreditLimit1());
+                        }
+                    }else {
+                        if (tag.getCreditLimitAvailable2().compareTo(BigDecimal.ZERO) < 0) {
+                            tag.setCreditLimitAvailable2(BigDecimal.ZERO);
+                        }
+                        //如果可用额度大于额度,则设为额度
+                        if (tag.getCreditLimitAvailable2().compareTo(tag.getCreditLimit2()) > 0) {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimit2());
+                        }
                     }
-                    //如果可用额度大于额度,则设为额度
-                    if (tag.getCreditLimitAvailable().compareTo(tag.getCreditLimit()) > 0) {
-                        tag.setCreditLimitAvailable(tag.getCreditLimit());
-                    }
+
                     tagMapper.updateById(tag);
                 }
 
@@ -131,6 +155,10 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
 
         //先查询再删除全部标签关系
         List<BillTags> billTags = billTagsMapper.selectList(Wrappers.<BillTags>lambdaQuery().eq(BillTags::getBillId, bill.getId()));
+        //查询关联的标签,看是否属于帅哥
+        List<Tag> tags = tagMapper.selectBatchIds(billTags.stream().map(BillTags::getTagId).collect(Collectors.toList()));
+        boolean ifMan = CollUtil.isNotEmpty(tags.stream().filter(t -> t.getTagType() == 3 && t.getName().equals("帅哥")).collect(Collectors.toList()));
+
         if (CollUtil.isNotEmpty(billTags)){
             for (BillTags billTag : billTags) {
                 //更新信用卡可用额度:原来标签先恢复额度
@@ -140,16 +168,35 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
                     Integer inoutType = oldBill.getInoutType();
                     if (inoutType == 1) {
                         //支出
-                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().add(amount));
+                        if (ifMan){
+                            tag.setCreditLimitAvailable1(tag.getCreditLimitAvailable1().add(amount));
+                        }else {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimitAvailable2().add(amount));
+                        }
                     } else if (inoutType == 3 && StrUtil.equals(tag.getName(), "还信用卡")){
-                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().subtract(amount));
+                        if (ifMan){
+                            tag.setCreditLimitAvailable1(tag.getCreditLimitAvailable1().subtract(amount));
+                        }else {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimitAvailable2().subtract(amount));
+                        }
+
                     }
-                    if (tag.getCreditLimitAvailable().compareTo(BigDecimal.ZERO) < 0) {
-                        tag.setCreditLimitAvailable(BigDecimal.ZERO);
-                    }
-                    //如果可用额度大于额度,则设为额度
-                    if (tag.getCreditLimitAvailable().compareTo(tag.getCreditLimit()) > 0) {
-                        tag.setCreditLimitAvailable(tag.getCreditLimit());
+                    if (ifMan){
+                        if (tag.getCreditLimitAvailable1().compareTo(BigDecimal.ZERO) < 0) {
+                            tag.setCreditLimitAvailable1(BigDecimal.ZERO);
+                        }
+                        //如果可用额度大于额度,则设为额度
+                        if (tag.getCreditLimitAvailable1().compareTo(tag.getCreditLimit1()) > 0) {
+                            tag.setCreditLimitAvailable1(tag.getCreditLimit1());
+                        }
+                    }else {
+                        if (tag.getCreditLimitAvailable2().compareTo(BigDecimal.ZERO) < 0) {
+                            tag.setCreditLimitAvailable2(BigDecimal.ZERO);
+                        }
+                        //如果可用额度大于额度,则设为额度
+                        if (tag.getCreditLimitAvailable2().compareTo(tag.getCreditLimit2()) > 0) {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimit2());
+                        }
                     }
                     tagMapper.updateById(tag);
                 }
@@ -161,6 +208,10 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
 
         //保存标签
         if (!CollectionUtils.isEmpty(bill.getTagIds())) {
+            //查询关联的标签,看是否属于帅哥
+            List<Tag> newtags = tagMapper.selectBatchIds(bill.getTagIds());
+            boolean ifMan2 = CollUtil.isNotEmpty(newtags.stream().filter(t -> t.getTagType() == 3 && t.getName().equals("帅哥")).collect(Collectors.toList()));
+
             for (Long tagId : bill.getTagIds()) {
                 //更新信用卡可用额度:原来标签先恢复额度
                 Tag tag = tagMapper.selectById(tagId);
@@ -169,17 +220,36 @@ public class BillServiceImpl extends ServiceImpl<BillMapper, Bill> implements Bi
                     Integer inoutType = oldBill.getInoutType();
                     if (inoutType == 1) {
                         //支出
-                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().subtract(amount));
+                        if (ifMan2){
+                            tag.setCreditLimitAvailable1(tag.getCreditLimitAvailable1().subtract(amount));
+                        }else {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimitAvailable2().subtract(amount));
+                        }
                     } else if (inoutType == 3 && StrUtil.equals(tag.getName(), "还信用卡")){
-                        tag.setCreditLimitAvailable(tag.getCreditLimitAvailable().add(amount));
+                        if (ifMan2){
+                            tag.setCreditLimitAvailable1(tag.getCreditLimitAvailable1().add(amount));
+                        }else {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimitAvailable2().add(amount));
+                        }
                     }
-                    if (tag.getCreditLimitAvailable().compareTo(BigDecimal.ZERO) < 0) {
-                        tag.setCreditLimitAvailable(BigDecimal.ZERO);
+                    if (ifMan2){
+                        if (tag.getCreditLimitAvailable1().compareTo(BigDecimal.ZERO) < 0) {
+                            tag.setCreditLimitAvailable1(BigDecimal.ZERO);
+                        }
+                        //如果可用额度大于额度,则设为额度
+                        if (tag.getCreditLimitAvailable1().compareTo(tag.getCreditLimit1()) > 0) {
+                            tag.setCreditLimitAvailable1(tag.getCreditLimit1());
+                        }
+                    }else {
+                        if (tag.getCreditLimitAvailable2().compareTo(BigDecimal.ZERO) < 0) {
+                            tag.setCreditLimitAvailable2(BigDecimal.ZERO);
+                        }
+                        //如果可用额度大于额度,则设为额度
+                        if (tag.getCreditLimitAvailable2().compareTo(tag.getCreditLimit2()) > 0) {
+                            tag.setCreditLimitAvailable2(tag.getCreditLimit2());
+                        }
                     }
-                    //如果可用额度大于额度,则设为额度
-                    if (tag.getCreditLimitAvailable().compareTo(tag.getCreditLimit()) > 0) {
-                        tag.setCreditLimitAvailable(tag.getCreditLimit());
-                    }
+
                     tagMapper.updateById(tag);
                 }
 

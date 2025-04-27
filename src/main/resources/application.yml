@@ -3,7 +3,7 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://dbconn.sealosbja.site:38027/billback?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
+    url: jdbc:mysql://dbconn.sealosbja.site:48762/billback?useSSL=false&serverTimezone=UTC&characterEncoding=UTF-8&allowMultiQueries=true
     username: root
     password: qlw9s2gb
     driver-class-name: com.mysql.cj.jdbc.Driver
