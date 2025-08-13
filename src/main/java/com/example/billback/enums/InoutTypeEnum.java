@@ -3,6 +3,8 @@ package com.example.billback.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import static com.example.billback.common.Constant.*;
+
 /**
  * 收支类型枚举
  */
@@ -13,40 +15,37 @@ public enum InoutTypeEnum {
     /**
      * 支出
      */
-    EXPENSE(1, "支出"),
+    OUT(INOUTTYPE_OUT),
     
     /**
      * 入账
      */
-    INCOME(2, "入账"),
+    IN(INOUTTYPE_IN),
     
     /**
      * 不计入收支
      */
-    NONE(3, "不计入收支");
+    NO(INOUTTYPE_NO);
     
-    /**
-     * 类型编码
-     */
-    private final Integer code;
+
     
     /**
      * 类型描述
      */
-    private final String desc;
+    private final String type;
     
     /**
-     * 根据编码获取枚举
+     * 判断类型是否正确
      */
-    public static InoutTypeEnum getByCode(Integer code) {
-        if (code == null) {
-            return null;
+    public static boolean check(String type) {
+        if (type == null) {
+            return false;
         }
-        for (InoutTypeEnum type : InoutTypeEnum.values()) {
-            if (type.getCode().equals(code)) {
-                return type;
+        for (InoutTypeEnum t : InoutTypeEnum.values()) {
+            if (t.getType().equals(type)) {
+                return true;
             }
         }
-        return null;
+        return false;
     }
 } 

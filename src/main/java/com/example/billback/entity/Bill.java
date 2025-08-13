@@ -1,51 +1,51 @@
 package com.example.billback.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
-
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 账单表实体类
+ */
 @Data
-@EqualsAndHashCode(callSuper = true)
-@TableName("bills")
-public class Bill extends BaseEntity {
+public class Bill {
     /**
-     * 主键ID，采用数据库自增方式
+     * 账单ID
      */
-    @TableId(type = IdType.AUTO)
-    private Long id;
-
+    private Integer id;
+    
     /**
-     * 用户ID，关联用户表的主键
+     * 用户id
      */
-    private Long userId;
-
+    private Integer userId;
+    
     /**
-     * 账单金额
+     * 金额
      */
     private BigDecimal amount;
-
+    
     /**
-     * 账单日期，使用@JsonFormat注解格式化为字符串
-     * 以便在JSON序列化时按照指定格式输出日期时间
+     * 账单时间
      */
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime billDate;
-
+    
     /**
-     * 账单描述，用于记录账单的详细信息或备注
+     * 备注
      */
-    private String remark;
-
+    private String desc;
+    
     /**
-     * 收支类型:1-支出,2-入账,3-不计入收支
+     * 创建时间
      */
-    private Integer inoutType;
-
-
-} 
+    private LocalDateTime createTime;
+    
+    /**
+     * 修改时间
+     */
+    private LocalDateTime updateTime;
+    
+    /**
+     * 收支类型:支出,入账,不计入
+     */
+    private String inoutType;
+}

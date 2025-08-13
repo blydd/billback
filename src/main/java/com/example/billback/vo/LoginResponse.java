@@ -12,14 +12,5 @@ import lombok.NoArgsConstructor;
 public class LoginResponse {
     private Integer userId;
     private String token;
-    private UserInfoDTO userInfo;
-    
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class UserInfoDTO {
-        private String nickName;
-        private String avatarUrl;
-    }
+    private String username;
 }

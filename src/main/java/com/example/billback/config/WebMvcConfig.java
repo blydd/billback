@@ -8,14 +8,16 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @RequiredArgsConstructor
 public class WebMvcConfig implements WebMvcConfigurer {
-    
+
     private final AuthInterceptor authInterceptor;
-    
+
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/api/**")
+                //拦截全部请求
+                .addPathPatterns("/**")
+                //不拦截的请求
                 .excludePathPatterns(
-                        "/api/user/login","/api/user/test");
+                        "/tag/login","/tag/login/**","/tag/register","/tag/register/**");
     }
 }

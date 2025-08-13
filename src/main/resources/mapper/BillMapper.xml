@@ -6,9 +6,9 @@
         SELECT
             b.*
         FROM
-            bills b
-            LEFT JOIN bill_tags bt ON bt.bill_id = b.id
-            LEFT JOIN tags t ON bt.tag_id = t.id
+            bill b
+            LEFT JOIN bill_tag bt ON bt.bill_id = b.id
+            LEFT JOIN tag t ON bt.tag_id = t.id
         <where>
             1 = 1
             <!-- 用户 -->
@@ -20,12 +20,12 @@
                 AND b.inout_type = #{billDto.inoutType}
             </if>
             <!-- 账单月份 -->
-            <if test="billDto.month != null and billDto.month != ''">
-                AND DATE_FORMAT(b.bill_date, '%Y-%m') = #{billDto.month}
+            <if test="billDto.billDate != null and billDto.month != ''">
+                AND DATE_FORMAT(b.bill_date, '%Y-%m') = #{billDto.billDate}
             </if>
             <!-- 标签取交集 -->
-            <if test="billDto.tagIds != null and billDto.tagIds.size > 0 and billDto.tagIds.get(0) != -1">
-                <foreach collection="billDto.tagIds" item="t" separator="" index="i" open="" close="">
+            <if test="billDto.tagIdList != null and billDto.tagIdList.size > 0 and billDto.tagIdList.get(0) != -1">
+                <foreach collection="billDto.tagIdList" item="t" separator="" index="i" open="" close="">
                     and b.id in ( SELECT bill_id FROM bill_tags WHERE tag_id = #{t})
                 </foreach>
             </if>

@@ -1,30 +1,67 @@
 package com.example.billback.dto;
 
-import com.example.billback.entity.Bill;
 import lombok.Data;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
- * @author: bgt
- * @Date: 2025/4/1 15:52
- * @Desc:
+ * 账单表实体类
  */
 @Data
-public class BillDto extends Bill {
-
-    private String month;
+public class BillDto {
     /**
-     * 账户类型:1储蓄账户,2信用账户
+     * 账单ID
      */
-    private Integer accountType;
+    private Integer id;
+    
+    /**
+     * 用户id
+     */
+    private Integer userId;
+    
+    /**
+     * 金额
+     */
+    private BigDecimal amount;
+    
+    /**
+     * 账单时间
+     */
+    private String billDate;
+    
+    /**
+     * 备注
+     */
+    private String desc;
+    
+    /**
+     * 创建时间
+     */
+    private String createTime;
+    
+    /**
+     * 修改时间
+     */
+    private String updateTime;
+    
+    /**
+     * 收支类型:支出,入账,不计入
+     */
+    private String inoutType;
 
     /**
-     * 标签类型:1-支付方式(微信支付宝等),2-账单类型(衣食住行等)
+     * 账户类型:储蓄账户,信用账户
      */
-    private Integer tagType;
+    private String accountType;
 
-
-
-    private List<Long> tagIds;
+    /**
+     * 标签id
+     */
+    private List<Integer> tagIdList;
+    /**
+     * 标签类型:支付方式(微信支付宝等),账单类型(衣食住行等)
+     */
+    private String tagType;
 }

@@ -7,5 +7,4 @@ import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface UserMapper extends BaseMapper<User> {
-    void insertInitTags(@Param("userId") Integer id);
 }

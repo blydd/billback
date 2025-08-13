@@ -13,35 +13,31 @@ public enum AccountTypeEnum {
     /**
      * 储蓄账户
      */
-    SAVINGS(1, "储蓄账户"),
+    SAVINGS("储蓄账户"),
     
     /**
      * 信用账户
      */
-    CREDIT(2, "信用账户");
+    CREDIT("信用账户");
     
-    /**
-     * 类型编码
-     */
-    private final Integer code;
-    
+
     /**
      * 类型描述
      */
-    private final String desc;
-    
+    private final String type;
+
     /**
-     * 根据编码获取枚举
+     * 判断类型是否正确
      */
-    public static AccountTypeEnum getByCode(Integer code) {
-        if (code == null) {
-            return null;
+    public static boolean check(String type) {
+        if (type == null) {
+            return false;
         }
-        for (AccountTypeEnum type : AccountTypeEnum.values()) {
-            if (type.getCode().equals(code)) {
-                return type;
+        for (AccountTypeEnum t : AccountTypeEnum.values()) {
+            if (t.getType().equals(type)) {
+                return true;
             }
         }
-        return null;
+        return false;
     }
 } 

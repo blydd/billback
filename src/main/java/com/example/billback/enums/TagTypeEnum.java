@@ -3,6 +3,9 @@ package com.example.billback.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import static com.example.billback.common.Constant.TAGTYPE_BILL;
+import static com.example.billback.common.Constant.TAGTYPE_PAY;
+
 /**
  * 标签类型枚举
  */
@@ -13,35 +16,30 @@ public enum TagTypeEnum {
     /**
      * 支付方式
      */
-    PAYMENT_METHOD(1, "支付方式"),
+    PAYMENT_METHOD(TAGTYPE_PAY),
     
     /**
      * 账单类型
      */
-    BILL_TYPE(2, "账单类型");
-    
-    /**
-     * 类型编码
-     */
-    private final Integer code;
-    
+    BILL_TYPE(TAGTYPE_BILL);
+
     /**
      * 类型描述
      */
-    private final String desc;
-    
+    private final String type;
+
     /**
-     * 根据编码获取枚举
+     * 判断类型是否正确
      */
-    public static TagTypeEnum getByCode(Integer code) {
-        if (code == null) {
-            return null;
+    public static boolean check(String type) {
+        if (type == null) {
+            return false;
         }
-        for (TagTypeEnum type : TagTypeEnum.values()) {
-            if (type.getCode().equals(code)) {
-                return type;
+        for (TagTypeEnum t : TagTypeEnum.values()) {
+            if (t.getType().equals(type)) {
+                return true;
             }
         }
-        return null;
+        return false;
     }
 } 

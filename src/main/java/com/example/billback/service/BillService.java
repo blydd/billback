@@ -1,18 +1,13 @@
 package com.example.billback.service;
 
-import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.example.billback.vo.BillVo;
+import com.example.billback.common.Result;
 import com.example.billback.dto.BillDto;
 import com.example.billback.entity.Bill;
+import com.example.billback.vo.BillVo;
 
 import java.util.List;
 
 public interface BillService extends IService<Bill> {
-    List<BillVo> getBills(BillDto billDto);
-    Bill saveBillWithTags(BillDto bill);
-    void updateBillWithTags(BillDto bill);
-    void deleteBillWithTags(Long id);
-
-    BillVo getOneById(Long id);
+    Result<List<BillVo>> getBills(BillDto billDto);
 }
