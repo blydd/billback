@@ -27,7 +27,7 @@ public class AuthInterceptor implements HandlerInterceptor {
         String token = request.getHeader("Authorization");
         String requestUri = request.getRequestURI();
         // 正确的做法是只对需要拦截的路径进行处理
-         if (requestUri.startsWith("/tag/login")) {
+         if (requestUri.startsWith("/tag/login") || requestUri.startsWith("/tag/register")) {
              return true;
          }
         
